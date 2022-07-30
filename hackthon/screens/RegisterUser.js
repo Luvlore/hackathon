@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Checkbox } from 'react-native-paper';
 import { Button , View , ScrollView, Text, SafeAreaView,TextInput} from 'react-native';  
 import DropDownPicker from 'react-native-dropdown-picker';
 import Header from './auxiliar/Header';
+import axios from 'axios';
+
 const styles = {
     borderSettings : {border: '1px solid black'},
     header : {alignItems: 'center',justifyContent: 'center',backgroundColor: 'aquamarine',display:'flex' },
@@ -58,9 +60,21 @@ const states = [
 
 function RegisterUser(props) {
 
-    const { route,navigation } = props
-    const params = route.params
-    console.log(params)
+    const { route,navigation } = props;
+    const params = route.params;
+    const typeUrls = ['/donators', '/volunteers', 'service-centers', '/stundets'];
+    const endpoint = typeUrls[params.type];
+
+    const getData = async () => {
+        const response = await fetch(endpoint);
+        const data = await response.json();
+
+        console.log(data);
+    }
+
+    useEffect(() => {
+        getData();
+    }, [])
 
     const [name, setName] = React.useState("");
     const [cpf, setCpf] = React.useState("");
@@ -90,7 +104,27 @@ function RegisterUser(props) {
     const [items, setItems] = React.useState(states);
 
     function finishRegistration(){
+        const cityId = axios.get(`/cities/${city}`).id;
+
         navigation.navigate('LoogedScreen', {type: params.type})
+        axios.post(endpoint, {
+            name,
+            cpf,
+            age,
+            city,
+            observations: observationField !== '' && observationField,
+            university: university !== '' && university,
+            school: school !== '' && school,
+            mother_name: motherName !== '' && motherName,
+            family_code: familyCode !== '' && familyCode,
+            school_year: schoolYear !== '' && schoolYear,
+            subject: subject !== '' && subject,
+            city: cityId,
+            email,
+            password,
+            job: job !== '' && job
+
+        })
         setName("")
         setCep("")
         setCpf("")

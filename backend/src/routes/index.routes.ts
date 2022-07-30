@@ -1,4 +1,5 @@
 import { Router } from "express";
+import GetCitiesController from "../controllers/Cities/GetCitiesController";
 import CreateDonationsController from "../controllers/Donations/CreateDonationsController";
 import DeleteDonationsController from "../controllers/Donations/DeleteDonationsController";
 import GetDonationsController from "../controllers/Donations/GetDonationsController";
@@ -19,6 +20,7 @@ import CreateServiceCenterAddressController from "../controllers/ServiceCenterAd
 import DeleteServiceCenterAddressController from "../controllers/ServiceCenterAddress/DeleteServiceCenterAddressController";
 import GetServiceCenterAddressController from "../controllers/ServiceCenterAddress/GetServiceCenterAddressController";
 import UpdateServiceCenterAddressController from "../controllers/ServiceCenterAddress/UpdateServiceCenterAddressController";
+import GetStatesController from "../controllers/States/GetStatesController";
 import CreateStudentsController from "../controllers/Students/CreateStudentController";
 import DeleteStudentController from "../controllers/Students/DeleteStudentController";
 import GetStudentsController from "../controllers/Students/GetStudentController";
@@ -82,5 +84,8 @@ routes.get('/volunteers-address', GetVolunteerAddressController);
 routes.post('/volunteers-address', CreateVolunteerAddressController);
 routes.delete('/volunteers-address/:id', DeleteVolunteerAddressController);
 routes.put('/volunteers-address/:id', UpdateVolunteerAddressController);
+
+routes.get('/cities/:id', GetCitiesController);
+routes.get('/states/:name', GetStatesController);
 
 export { routes };
